@@ -1,8 +1,19 @@
 
 # coding: utf-8
 
-# In[4]:
-
+# In[1]:
+import os
+import glob
+import argparse
+import re, string, unicodedata
+import numpy as np
+import pandas as pd
+import nltk
+# nltk.download()
+import contractions
+from nltk import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import LancasterStemmer
 
 def splitter(text):
     return " ".join(text.split("|"))
@@ -196,7 +207,7 @@ def clean_master_list(path):
     return master_list
 
 # This function should return 2 values
-def get_word_frequency_from_cat(text, master_list, remove_similar = False):
+def get_word_frequency_from_cat(text, master_list, remove_similar=False):
     text = " ".join(text.split('|'))
     text = replace_contractions(text)
     words = tokenize_text(text)
@@ -211,7 +222,7 @@ def get_word_frequency_from_cat(text, master_list, remove_similar = False):
         words, master_list = remove_similar_words(words, master_list)
     return words, master_list
 
-def get_word_frequency_from_pn(text, master_list, remove_similar = False):
+def get_word_frequency_from_pn(text, master_list, remove_similar=False):
     text = " ".join(text.split(' '))
     text = replace_contractions(text)
     words = tokenize_text(text)
@@ -226,7 +237,7 @@ def get_word_frequency_from_pn(text, master_list, remove_similar = False):
         words, master_list = remove_similar_words(words, master_list)
     return words, master_list
 
-def get_word_frequency_from_pd(text, master_list, remove_similar = False):
+def get_word_frequency_from_pd(text, master_list, remove_similar=False):
     try:
         text = " ".join(str(text).split('|')[2:])
     except UnicodeEncodeError as e:
