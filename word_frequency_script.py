@@ -1,21 +1,8 @@
 
 # coding: utf-8
 
-# In[10]:
+# In[3]:
 
-
-import os
-import glob
-import argparse
-import re, string, unicodedata
-import numpy as np
-import pandas as pd
-import nltk
-# nltk.download()
-import contractions
-from nltk import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import LancasterStemmer
 
 from wordhelper_funcs import *
 
@@ -41,7 +28,7 @@ class word_frequency(object):
     def read_file(self):
 #         if self.file_name.endswith('.csv'):
         data = pd.DataFrame()
-        dirs = ['./Victorias Secret/Sport/*.csv']
+        dirs = ['./LA Senza/Sport/*.csv']
         for j in dirs:    
             for i in glob.glob(j):
                 y = pd.read_csv(i, usecols=['category','prodName','imageName','description'])
@@ -104,7 +91,7 @@ class word_frequency(object):
         df_word_list = []
         master_list_i= []
         # Remove this loop
-        for i,j in dataframe.description.apply(lambda x: get_word_frequency_from_pd(x, master_listx, remove_similar = False)):
+        for i,j in dataframe.description.apply(lambda x: get_word_frequency_from_pd(x, master_listx,remove_similar = False)):
             df_word_list.extend(i)
             master_list_i.extend(j)
         try:
@@ -127,6 +114,7 @@ class word_frequency(object):
             cat_data = data[['category','retailer_key']]
             retailers = pd.DataFrame(cat_data.retailer_key.unique(), columns =['retailer_key'])
             retailers['index'] = retailers.index.get_values()
+            print('Unique retailers with index values..\n')
             print(retailers.values)
             for rname, i in retailers.values:
                 r_sub = cat_data[cat_data.retailer_key == rname]
@@ -175,10 +163,16 @@ if __name__ == "__main__":
     category_pivot, prodName_pivot, prodDesc_pivot, master_list = main.prep_data(data, category = True, prodName = True, prodDesc = True)
 
 
-# In[11]:
+# In[5]:
 
 
-prodDesc_pivot.to_csv('VS_sport_prodDesc_pivot.csv',index=False,header=True)
-prodName_pivot.to_csv('VS_sport_prodName_pivot.csv',index=False,header=True)
-category_pivot.to_csv('VS_sport_category_pivot.csv',index=False,header=True)
+prodDesc_pivot.to_csv('LS_sport_prodDesc_pivot.csv',index=False,header=True)
+prodName_pivot.to_csv('LS_sport_prodName_pivot.csv',index=False,header=True)
+category_pivot.to_csv('LS_sport_category_pivot.csv',index=False,header=True)
+
+
+# In[6]:
+
+
+category_pivot
 
